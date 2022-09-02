@@ -4,6 +4,13 @@ import { Iplayer } from "./IPlayer";
 import { Player } from "./Player";
 import { Sword } from "./Sword";
 
+
+const mastImage = new Image();
+mastImage.src = "./assets/images/mast_head.png";
+
+const backgroundImage = new Image();
+backgroundImage.src = "./assets/images/game_level_background.webp";
+
 class Canvas {
     private _canvasElement: HTMLCanvasElement | null;
     private _canvas: CanvasRenderingContext2D | null;
@@ -56,8 +63,7 @@ class Canvas {
        return this._width;
     }
     clear() {
-        this._canvas.fillStyle = this._backgroundColor;
-        this._canvas.fillRect(0,0,this.width,this.height);
+        this._canvas.drawImage(backgroundImage,530,150,this.width,this.height,0,0,this.width,this.height);
     }
 
     public draw(drawables:IDrawable[]) {
@@ -74,6 +80,9 @@ class Canvas {
         
     }
 
+    public drawMastHead() {
+        this._canvas.drawImage(mastImage,0,0);
+    }
 
     public drawObject(drawableObject: IDrawable)  {
         this._canvas.fillStyle = drawableObject.color;
@@ -89,7 +98,7 @@ class Canvas {
 let canvasProperties: CanvasProperties = {
     id : "canvas",
     height : 500,
-    width: 700,
+    width: 1000,
     backgroundColor: "black"
 }
 export const canvas = new Canvas(canvasProperties);
@@ -199,6 +208,7 @@ window.addEventListener("keyup", (key)=>{
 function animate(){
     window.requestAnimationFrame(animate);
     canvas.clear();
+    canvas.drawMastHead();
     canvas.draw([Player1,Player2]);
     Player1.updatePos();
     Player2.updatePos();

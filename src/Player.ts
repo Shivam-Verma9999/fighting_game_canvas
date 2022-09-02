@@ -2,6 +2,7 @@ import { canvas } from ".";
 import { IDrawable } from "./Idrawable";
 import { Iplayer } from "./IPlayer";
 import { Iweapon } from "./Iweapon";
+import { MovementDirection } from "./MovementDirection";
 
 export class Player implements Iplayer {
     id: number;
@@ -13,7 +14,7 @@ export class Player implements Iplayer {
     public lastKey: string = "";
     public initialJumps: number = 2;
     public totalJumpsAvailable:number;
-    public jumpPower: number = -5;
+    public jumpPower: number = -6;
     public PlayerSpeed: number = 1;
     velocity: { x: number; y: number; } = {x:0,y:1};
     public weapon : Iweapon = null;
@@ -38,15 +39,33 @@ export class Player implements Iplayer {
         this.weapon  = weapon;
     }
 
+    getMovementDirection(): MovementDirection {
+        if (
+            this.lastKey.toLowerCase() === 'a' 
+            ||
+            this.lastKey.toLowerCase() === "arrowleft"
+        ) {
+            return MovementDirection.Left;
+        }
+
+            return MovementDirection.Right;
+    }
+    directionMultiplier(): number {
+        if( this.getMovementDirection() === MovementDirection.Left){
+            return -1;
+        }else {
+            return 1;
+        }
+    }
     getWeaponForDraw() {
         let height = this.weapon.isActive ? this.weapon.width : this.weapon.height;
         let width = this.weapon.isActive ? this.weapon.height : this.weapon.width;
         return {
             color: this.weapon.color,
-            x: (this.x  +this.width),
+            x: (this.x  +this.width * this.directionMultiplier()),
             y:this.y,
             height: -height,
-            width : width
+            width : width * this.directionMultiplier()
         }
     }
     updatePos() {
@@ -57,7 +76,7 @@ export class Player implements Iplayer {
         if((this.x + this.width + this.velocity.x) >= canvas.width){
             this.velocity.x = 0
         };
-        if((this.y + this.height + this.velocity.y) >= canvas.height){
+        if((this.y + this.height + this.velocity.y) >= canvas.height-35){
             this.velocity.y = 0
             this.totalJumpsAvailable = this.initialJumps;
         };
