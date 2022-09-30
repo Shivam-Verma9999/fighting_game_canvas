@@ -23,7 +23,6 @@ export class Sword implements Iweapon {
         this.width = drawInfo.width;
         this.isActive = false;
         this.damage= damage;
-        this.isActive = true;
     };
     
 }

@@ -8,11 +8,12 @@ export class KeyControllerMap {
         this.mapKeyControllerID("s",1);
         this.mapKeyControllerID("d",1);
         this.mapKeyControllerID("w",1);
-        this.mapKeyControllerID("arrow_up",2);
-        this.mapKeyControllerID("arrow_down",2);
-        this.mapKeyControllerID("arrow_left",2);
-        this.mapKeyControllerID("arrow_right",2);
-        
+        this.mapKeyControllerID("arrowup",2);
+        this.mapKeyControllerID("arrowdown",2);
+        this.mapKeyControllerID("arrowleft",2);
+        this.mapKeyControllerID("arrowright",2);
+        this.mapKeyControllerID(" ", 1);
+        this._initialized = true;
     }
     public static getMappedControllerID(key: string): number
     {   
@@ -23,7 +24,6 @@ export class KeyControllerMap {
     }
 
     public static mapKeyControllerID(key:string, controllerID: number){
-        this.throwIfNotInitialized();
         this._map.set(key,controllerID)
     }
 

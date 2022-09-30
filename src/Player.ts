@@ -96,5 +96,25 @@ export class Player implements Iplayer {
         this.velocity.y = this.jumpPower;
         this.totalJumpsAvailable--;
     }
+
+    moveLeft() {
+        this.velocity.x = -this.PlayerSpeed;
+        this.lastKey = 'a';
+    }
+
+    moveRight(){
+        this.velocity.x = this.PlayerSpeed;
+        this.lastKey = 'd';
+    }
+    //TODO: movement stop should be done based on the last key pressed. 
+    stopMovement(){
+        this.velocity.x = 0;
+    }
+    attack(){
+        this.activateWeapon();
+    }
+    stopAttack(){
+        this.deactivateWeapon();
+    }
 }
 

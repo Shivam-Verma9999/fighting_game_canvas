@@ -1,6 +1,11 @@
+import { Controller } from "./Controller";
+import { ControllerHandler } from "./ControllerHandler";
 import { CanvasProperties } from "./IcanvasProperties";
 import { IDrawable } from "./Idrawable";
 import { Iplayer } from "./IPlayer";
+import { KeyControllerMap } from "./KeyControllerMap";
+import { KeyEventMap } from "./KeyEventMap";
+import { KeyHandler } from "./keyHandler";
 import { Player } from "./Player";
 import { Sword } from "./Sword";
 
@@ -118,92 +123,96 @@ let weaponDrawConfig: IDrawable = {
 
 Player1.setWeapon(new Sword(weaponDrawConfig, 10));
 Player2.setWeapon(new Sword(weaponDrawConfig, 10));
+KeyEventMap.initialize();
+KeyControllerMap.initialize();
+ControllerHandler.setupControllers(new Controller(Player1), new Controller(Player2));
+KeyHandler.handle(window);
 
-let upkeyleft = 0;
-let upkeyright = 0;
-window.addEventListener("keydown", (key => {
-    switch (key.key) {
-        case "a":
-        case "A":
-            Player1.velocity.x = -Player1.PlayerSpeed;
-            Player1.lastKey = 'a';
-            break;
-        case "d":
-        case "D":
-            Player1.velocity.x = Player1.PlayerSpeed;
-            Player1.lastKey = 'd';
-            break;
-        case 'w':
-            if (upkeyleft != 0) return
-            upkeyleft++;
-            Player1.jump();
-            break;
-        case " ":
-            Player1.activateWeapon();
-            break;
-    }
-}))
-
-
-window.addEventListener("keydown", (key => {
-    switch (key.key) {
-        case "ArrowLeft":
-        case "A":
-            Player2.velocity.x = -Player2.PlayerSpeed;
-            Player2.lastKey = 'ArrowLeft';
-            break;
-        case "ArrowRight":
-        case "D":
-            Player2.velocity.x = Player2.PlayerSpeed;
-            Player2.lastKey = 'ArrowRight';
-            break;
-        case 'ArrowUp':
-            if (upkeyright != 0) return
-            upkeyright++;
-            Player2.jump();
-            break;
-    }
-}))
+// let upkeyleft = 0;
+// let upkeyright = 0;
+// window.addEventListener("keydown", (key => {
+//     switch (key.key) {
+//         case "a":
+//         case "A":
+//             Player1.velocity.x = -Player1.PlayerSpeed;
+//             Player1.lastKey = 'a';
+//             break;
+//         case "d":
+//         case "D":
+//             Player1.velocity.x = Player1.PlayerSpeed;
+//             Player1.lastKey = 'd';
+//             break;
+//         case 'w':
+//             if (upkeyleft != 0) return
+//             upkeyleft++;
+//             Player1.jump();
+//             break;
+//         case " ":
+//             Player1.activateWeapon();
+//             break;
+//     }
+// }))
 
 
-window.addEventListener("keyup", (key) => {
-    console.log(`'${key.key}' l:${key.key.length}`);
-    if (key.key == 'w') {
-        upkeyleft = 0;
-    } else if (key.key === ' ') {
-        Player1.deactivateWeapon();
-    }
-    if (Player1.lastKey.toLowerCase() === key.key.toString().toLowerCase())
-        switch (key.key) {
-            case "a":
-            case "A":
-                Player1.velocity.x = 0;
-                break;
-            case "d":
-            case "D":
-                Player1.velocity.x = 0;
-                break;
-        }
-})
+// window.addEventListener("keydown", (key => {
+//     switch (key.key) {
+//         case "ArrowLeft":
+//         case "A":
+//             Player2.velocity.x = -Player2.PlayerSpeed;
+//             Player2.lastKey = 'ArrowLeft';
+//             break;
+//         case "ArrowRight":
+//         case "D":
+//             Player2.velocity.x = Player2.PlayerSpeed;
+//             Player2.lastKey = 'ArrowRight';
+//             break;
+//         case 'ArrowUp':
+//             if (upkeyright != 0) return
+//             upkeyright++;
+//             Player2.jump();
+//             break;
+//     }
+// }))
+
+
+// window.addEventListener("keyup", (key) => {
+//     console.log(`'${key.key}' l:${key.key.length}`);
+//     if (key.key == 'w') {
+//         upkeyleft = 0;
+//     } else if (key.key === ' ') {
+//         Player1.deactivateWeapon();
+//     }
+//     if (Player1.lastKey.toLowerCase() === key.key.toString().toLowerCase())
+//         switch (key.key) {
+//             case "a":
+//             case "A":
+//                 Player1.velocity.x = 0;
+//                 break;
+//             case "d":
+//             case "D":
+//                 Player1.velocity.x = 0;
+//                 break;
+//         }
+// })
 
 
 
-window.addEventListener("keyup", (key) => {
-    if (key.key == 'ArrowUp') {
-        upkeyright = 0;
-    }
-    if (Player2.lastKey.toLowerCase() === key.key.toString().toLowerCase())
-        switch (key.key) {
-            case "ArrowLeft":
-            case "A":
-                Player2.velocity.x = 0;
-                break;
-            case "ArrowRight":
-            case "D":
-                Player2.velocity.x = 0;
-                break;
-        }
-})
+// window.addEventListener("keyup", (key) => {
+//     if (key.key == 'ArrowUp') {
+//         upkeyright = 0;
+//     }
+//     if (Player2.lastKey.toLowerCase() === key.key.toString().toLowerCase())
+//         switch (key.key) {
+//             case "ArrowLeft":
+//             case "A":
+//                 Player2.velocity.x = 0;
+//                 break;
+//             case "ArrowRight":
+//             case "D":
+//                 Player2.velocity.x = 0;
+//                 break;
+//         }
+// })
 
 function animate() {
     window.requestAnimationFrame(animate);
