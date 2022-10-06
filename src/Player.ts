@@ -1,4 +1,5 @@
 import { canvas } from ".";
+import { Action } from "./Actions";
 import { IDrawable } from "./Idrawable";
 import { Iplayer } from "./IPlayer";
 import { Iweapon } from "./Iweapon";
@@ -11,7 +12,7 @@ export class Player implements Iplayer {
     public height: number;
     public width: number;
     public color: string;
-    public lastKey: string = "";
+    public lastAction: Action = undefined;
     public initialJumps: number = 2;
     public totalJumpsAvailable:number;
     public jumpPower: number = -6;
@@ -41,14 +42,15 @@ export class Player implements Iplayer {
 
     getMovementDirection(): MovementDirection {
         if (
-            this.lastKey.toLowerCase() === 'a' 
-            ||
-            this.lastKey.toLowerCase() === "arrowleft"
+            this.lastAction === Action.MoveLeft 
         ) {
             return MovementDirection.Left;
+        }else if(
+            this.lastAction === Action.MoveRight
+        ) {
+            return MovementDirection.Right;
         }
 
-            return MovementDirection.Right;
     }
     directionMultiplier(): number {
         if( this.getMovementDirection() === MovementDirection.Left){
@@ -99,16 +101,23 @@ export class Player implements Iplayer {
 
     moveLeft() {
         this.velocity.x = -this.PlayerSpeed;
-        this.lastKey = 'a';
+        this.lastAction = Action.MoveLeft;
     }
 
     moveRight(){
         this.velocity.x = this.PlayerSpeed;
-        this.lastKey = 'd';
+        this.lastAction = Action.MoveRight;
     }
-    //TODO: movement stop should be done based on the last key pressed. 
-    stopMovement(){
-        this.velocity.x = 0;
+    stopLeftMovement(){
+        if(this.getMovementDirection() === MovementDirection.Left){
+            this.velocity.x = 0;
+        }
+    }
+
+    stopRightMovement() {
+        if(this.getMovementDirection() === MovementDirection.Right) {
+            this.velocity.x = 0;
+        }
     }
     attack(){
         this.activateWeapon();

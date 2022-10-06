@@ -34,7 +34,6 @@ export class KeyEventMap {
 
     static getActionForKey(keyobj: { key: string, keyState: KeyState }) {
         console.log(`getting action for ${JSON.stringify(keyobj)}`);
-        console.log(this._keyEventMap);
         return this._keyEventMap.get(JSON.stringify(keyobj));
     }
 }

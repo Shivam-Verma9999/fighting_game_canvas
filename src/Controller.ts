@@ -13,6 +13,7 @@ export class Controller {
     }
 
     public doAction(action: Action) {
+        console.log(`action : ${action}`);
         switch(action) {
             case Action.MoveLeft:
                 this.player.moveLeft();
@@ -32,10 +33,13 @@ export class Controller {
 
             case Action.StopAttack:
                 this.player.stopAttack();
+                break;
 
             case Action.StopMoveLeft:
+                this.player.stopLeftMovement();
+                break;
             case Action.StopMoveRight:
-                this.player.stopMovement();
+                this.player.stopRightMovement();
                 break;
             
             default:
